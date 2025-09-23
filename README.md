@@ -1,69 +1,31 @@
-# React + TypeScript + Vite
+## Principes généraux de cette application de démo: React Query et Redux
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### ⚛️ React Query
+Pour toutes les données venant du backend à synchroniser facilement (Users et Tasks).
 
-Currently, two official plugins are available:
+**Avantages :**
+- 🗂️ Cache intégré
+- 🔄 Invalidation automatique
+- ⏱️ Refetch automatique
+- ⚠️ Gestion des états `loading` / `error`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+### 🛠️ Redux
+Pour les états locaux ou transitoires qui ne nécessitent pas de sauvegarde immédiate dans le backend  
+(exemple : sélection de tâches pour un utilisateur avant validation).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Avantages :**
+- 👀 Prévisualisation des changements
+- 🔗 Partage d'état entre plusieurs composants
+- ↩️ Possibilité de `undo` / `redo`
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 📝 Synthèse
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Ressource    | Gestion           | Remarques                                                                 |
+|-------------|-----------------|--------------------------------------------------------------------------|
+| **Users**    | React Query      | Lecture/écriture directe sur le backend                                   |
+| **Tasks**    | React Query      | Lecture/écriture directe sur le backend                                   |
+| **Assignments** | Redux (local) → React Query | Gestion temporaire côté frontend, puis mutation pour sauvegarde backend |

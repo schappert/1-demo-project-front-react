@@ -4,7 +4,7 @@ import {
     useCreateUser,
     useUpdateUser,
     useDeleteUser,
-} from "../users-service";
+} from "../users.service.ts";
 
 export const UsersPage = () => {
     const { data: users, isLoading, error } = useUsers();

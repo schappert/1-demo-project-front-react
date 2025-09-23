@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import usersReducer from "../features/users/users-slice";
-import tasksReducer from "../features/tasks/tasks-slice";
-import assignmentsReducer from "../features/assignments/assignments-slice";
+import usersReducer from "../features/users/users.slice.ts";
+import tasksReducer from "../features/tasks/tasks.slice.ts";
+import assignmentsReducer from "../features/assignments/assignments.slice.ts";
 
 export const store = configureStore({
     reducer: {
