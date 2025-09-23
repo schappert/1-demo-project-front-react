@@ -1,31 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface Assignment {
-    id: string;
-    userId: string;
-    taskId: string;
+    userId: number;
+    taskId: number;
 }
 
 interface AssignmentsState {
-    list: Assignment[];
+    selected: Assignment[];
 }
 
-const initialState: AssignmentsState = {
-    list: [],
-};
+type PayloadAction<T> = { payload: T };
 
-export const assignmentsSlice = createSlice({
+const initialState: AssignmentsState = { selected: [] };
+
+const assignmentsSlice = createSlice({
     name: "assignments",
     initialState,
     reducers: {
-        addAssignment(state, action: { payload: Assignment }) {
-            state.list.push(action.payload);
+        addAssignment: (state, action: PayloadAction<Assignment>) => {
+            state.selected.push(action.payload);
         },
-        removeAssignment(state, action: { payload: string }) {
-            state.list = state.list.filter(a => a.id !== action.payload);
+        removeAssignment: (state, action: PayloadAction<Assignment>) => {
+            state.selected = state.selected.filter(
+                a => !(a.userId === action.payload.userId && a.taskId === action.payload.taskId)
+            );
+        },
+        clearAssignments: state => {
+            state.selected = [];
         },
     },
 });
 
-export const { addAssignment, removeAssignment } = assignmentsSlice.actions;
+export const { addAssignment, removeAssignment, clearAssignments } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;

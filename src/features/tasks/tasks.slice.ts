@@ -1,3 +1,4 @@
+// Fichier de préparation de gestion Tasks par Redux (Actuellement géré par appels API via React Query)
 import { createSlice } from "@reduxjs/toolkit";
 
 interface Task {
