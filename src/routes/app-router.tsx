@@ -1,6 +1,5 @@
-import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Layout } from "../components/layout/Layout";
+import { Layout } from "../components/layout/layout";
 import { UsersPage } from "../features/users/pages/users-page";
 import { TasksPage } from "../features/tasks/pages/tasks-page";
 import { AssignmentsPage } from "../features/assignments/pages/assignments-page";

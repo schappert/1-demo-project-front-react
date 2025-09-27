@@ -3,6 +3,7 @@ import type {User} from "../users/users.types.ts";
 export interface Task {
     id: number;
     title: string;
+    description?: string;
     assignments?: Assignment[];
 }
 
@@ -16,11 +17,13 @@ export interface Assignment {
 
 export type CreateTaskPayload = {
     title: string;
+    description?: string;
 };
 
 export type UpdateTaskPayload = {
     id: number;
     title?: string;
+    description?: string;
 };
 
 export type CreateAssignmentPayload = {

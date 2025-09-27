@@ -6,7 +6,6 @@ import type {
     UpdateTaskPayload,
     Assignment,
     CreateAssignmentPayload,
-    UpdateAssignmentPayload,
 } from "./tasks.types";
 
 // --- API calls ---

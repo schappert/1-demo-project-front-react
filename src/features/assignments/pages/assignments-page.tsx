@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, removeAssignment, clearAssignments } from "../assignments.slice";
 import { useSaveAssignments } from "../assignments.service";

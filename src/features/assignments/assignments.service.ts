@@ -10,8 +10,9 @@ export const useSaveAssignments = () => {
             await api.post("/assignments", { assignments });
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(["tasks"]);
-            queryClient.invalidateQueries(["users"]);
+            queryClient.invalidateQueries({ queryKey: ["tasks"] });
+            queryClient.invalidateQueries({ queryKey: ["users"] });
+
         },
     });
 };
