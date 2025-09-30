@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth-context";
 import axios from "axios";
+import {api} from "../../api/client.ts";
 
 type DashboardData = {
     users: number;
@@ -13,7 +14,7 @@ export const DashboardPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("/dashboard", {
+            const res = await api.get("/dashboard", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setData(res.data);
