@@ -13,7 +13,7 @@ export const DashboardPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get("https://sebastien-chappert.fr/dashboard", {
+            const res = await axios.get("/dashboard", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setData(res.data);

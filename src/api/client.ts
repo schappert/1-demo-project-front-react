@@ -8,7 +8,7 @@ export const api = axios.create({
 });
 
 export const login = async (username: string, password: string) => {
-    const res = await axios.post(`${baseURL}/auth/login`, { username, password });
+    const res = await axios.post(`/auth/login`, { username, password });
     // backend renvoie { access_token: "xxxx" }
     return res.data;
 };
