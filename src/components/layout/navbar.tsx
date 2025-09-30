@@ -25,21 +25,25 @@ export const Navbar = () => {
                     Assignments
                 </NavLink>
 
-                {/* Dashboard visible uniquement si connecté */}
-                {token && (
-                    <NavLink to="/dashboard" className="hover:underline font-bold">
-                        Dashboard
+                {token ? (
+                    <>
+                        {/* Dashboard visible uniquement si connecté */}
+                        <NavLink to="/dashboard" className="hover:underline font-bold">
+                            Dashboard
+                        </NavLink>
+                        {/* Bouton logout */}
+                        <button
+                            onClick={logout}
+                            className="ml-2 bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+                        >
+                            Déconnexion
+                        </button>
+                    </>
+                ) : (
+                    /* Lien login visible si non connecté */
+                    <NavLink to="/login" className="hover:underline font-bold">
+                        Se connecter
                     </NavLink>
-                )}
-
-                {/* Bouton logout */}
-                {token && (
-                    <button
-                        onClick={logout}
-                        className="ml-2 bg-red-500 px-3 py-1 rounded hover:bg-red-600"
-                    >
-                        Déconnexion
-                    </button>
                 )}
             </div>
         </nav>
