@@ -1,7 +1,7 @@
 import axios from "axios";
 
-//const baseURL = 'https://sebastien-chappert.fr';
-const baseURL = "http://localhost:3000";
+const baseURL = 'https://sebastien-chappert.fr';
+// const baseURL = "http://localhost:3000";
 
 export const api = axios.create({
     baseURL
