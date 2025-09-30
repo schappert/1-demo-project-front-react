@@ -4,6 +4,9 @@ import { UsersPage } from "../features/users/pages/users-page";
 import { TasksPage } from "../features/tasks/pages/tasks-page";
 import { AssignmentsPage } from "../features/assignments/pages/assignments-page";
 import {HomePage} from "../features/home/home-page.tsx";
+import {LoginPage} from "../features/login/login-page.tsx";
+import {DashboardPage} from "../features/dashboard/dashboard-page.tsx";
+import {ProtectedRoutes} from "./protected-routes.tsx";
 
 export const AppRouter = () => {
     return (
@@ -13,6 +16,15 @@ export const AppRouter = () => {
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/tasks" element={<TasksPage />} />
                 <Route path="/assignments" element={<AssignmentsPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedRoutes>
+                            <DashboardPage />
+                        </ProtectedRoutes>
+                    }
+                />
             </Route>
         </Routes>
     );

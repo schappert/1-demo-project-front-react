@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAssignment, removeAssignment, clearAssignments } from "../assignments.slice";
+import { addAssignment, removeAssignment } from "../assignments.slice";
 import { useSaveAssignments } from "../assignments.service";
-import {useUsers} from "../../users/users.service";
-import {useTasks} from "../../tasks/tasks.service";
-import type {RootState} from "../../../app/store";
-
+import { useUsers } from "../../users/users.service";
+import { useTasks } from "../../tasks/tasks.service";
+import type { RootState } from "../../../app/store";
 
 export const AssignmentsPage = () => {
     const { data: users } = useUsers();
@@ -34,7 +33,13 @@ export const AssignmentsPage = () => {
             return;
         }
         saveAssignments.mutate(assignments, {
-            onSuccess: () => dispatch(clearAssignments()),
+            onSuccess: () => {
+                alert("Attributions sauvegardées ✅");
+                // plus de clearAssignments(), donc les checkboxes restent cochés
+            },
+            onError: () => {
+                alert("Erreur lors de la sauvegarde ❌");
+            }
         });
     };
 

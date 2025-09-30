@@ -1,6 +1,14 @@
 import axios from "axios";
 
+//const baseURL = 'https://sebastien-chappert.fr';
+const baseURL = "http://localhost:3000";
+
 export const api = axios.create({
-    //baseURL: "http://localhost:3000",
-    baseURL: "https://sebastien-chappert.fr"
+    baseURL
 });
+
+export const login = async (username: string, password: string) => {
+    const res = await axios.post(`${baseURL}/auth/login`, { username, password });
+    // backend renvoie { access_token: "xxxx" }
+    return res.data;
+};
