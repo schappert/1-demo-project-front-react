@@ -8,7 +8,6 @@ type DashboardData = {
 };
 
 export const DashboardPage = () => {
-    const { token } = useAuth();
     const [data, setData] = useState<DashboardData | null>(null);
 
     useEffect(() => {
