@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/auth-context";
 import {api} from "../../api/client.ts";
 
 type DashboardData = {

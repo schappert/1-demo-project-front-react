@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
 
 export const Navbar = () => {
-    const { token, logout } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
     return (
         <nav className="bg-gray-800 text-white p-4 flex justify-between items-center shadow-md">
@@ -25,12 +25,13 @@ export const Navbar = () => {
                     Assignments
                 </NavLink>
 
-                {token ? (
+                {isAuthenticated ? (
                     <>
                         {/* Dashboard visible uniquement si connecté */}
                         <NavLink to="/dashboard" className="hover:underline font-bold">
                             Dashboard
                         </NavLink>
+
                         {/* Bouton logout */}
                         <button
                             onClick={logout}
