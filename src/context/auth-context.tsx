@@ -1,5 +1,5 @@
 // src/context/auth-context.tsx
-import { createContext, useContext, useState } from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import type { ReactNode } from "react";
 import { api } from "../api/client";
 
@@ -14,8 +14,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    // ✅ Check session au démarrage
+    useEffect(() => {
+        const loadSession = async () => {
+            try {
+                await api.get("/auth/me");
+                setIsAuthenticated(true);
+            } catch {
+                setIsAuthenticated(false);
+            }
+        };
+        loadSession();
+    }, []);
+
     const login = async (username: string, password: string) => {
-        await api.post("/auth/login", { username, password }, { withCredentials: true });
+        await api.post("/auth/login", { username, password });
         setIsAuthenticated(true);
     };
 

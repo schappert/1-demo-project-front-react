@@ -31,8 +31,6 @@ export const Navbar = () => {
                         <NavLink to="/dashboard" className="hover:underline font-bold">
                             Dashboard
                         </NavLink>
-
-                        {/* Bouton logout */}
                         <button
                             onClick={logout}
                             className="ml-2 bg-red-500 px-3 py-1 rounded hover:bg-red-600"
