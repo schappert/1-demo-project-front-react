@@ -1,4 +1,6 @@
-## Principes généraux de cette application de démo : React Query et Redux
+# Projet Démo - Gestion Users / Tasks
+
+## Principes généraux de cette application de démo: React Query et Redux
 
 ### ⚛️ React Query
 Pour toutes les données venant du backend à synchroniser facilement (Users et Tasks).
@@ -13,7 +15,7 @@ Pour toutes les données venant du backend à synchroniser facilement (Users et 
 
 ### 🛠️ Redux
 Pour les états locaux ou transitoires qui ne nécessitent pas de sauvegarde immédiate dans le backend  
-(exemple : sélection de tâches pour un utilisateur avant validation).
+(exemple : sélection de tâches pour un utilisateur avant validation).
 
 **Avantages :**
 - 👀 Prévisualisation des changements
@@ -24,45 +26,56 @@ Pour les états locaux ou transitoires qui ne nécessitent pas de sauvegarde imm
 
 ### 📝 Synthèse
 
-| Ressource        | Gestion                        | Remarques |
-|-----------------|-------------------------------|-----------|
-| **Users**        | React Query                   | Lecture/écriture directe sur le backend |
-| **Tasks**        | React Query                   | Lecture/écriture directe sur le backend |
-| **Assignments**  | Redux (local) → React Query   | Gestion temporaire côté frontend, puis mutation pour sauvegarde backend |
+| Ressource       | Gestion                     | Remarques                                                              |
+|-----------------|----------------------------|------------------------------------------------------------------------|
+| **Users**       | React Query                | Lecture/écriture directe sur le backend                                 |
+| **Tasks**       | React Query                | Lecture/écriture directe sur le backend                                 |
+| **Assignments** | Redux (local) → React Query | Gestion temporaire côté frontend, puis mutation pour sauvegarde backend |
 
 ---
 
-## 🔐 Gestion de l’authentification & sécurité
+## 🔐 Gestion sécurisée des tokens JWT
 
-L’authentification s’appuie sur un système **Access Token + Refresh Token** conforme aux bonnes pratiques actuelles de sécurité web (OWASP).
+### 💡 Principe
 
-### 📌 Stockage sécurisé des tokens
+L’authentification utilise **Access Token** et **Refresh Token**, stockés dans **cookies sécurisés `HttpOnly`**.  
+Cela empêche le code JavaScript du frontend de les lire, protégeant contre le **vol de token via XSS**.
 
-| Élément | Type | Stockage | Durée | Rôle |
-|--------|------|----------|-------|-----|
-| **Access Token** | JWT | ✅ Cookie HTTPOnly | ⏱️ 15 minutes | Autoriser l’accès aux routes protégées |
-| **Refresh Token** | JWT | ✅ Cookie HTTPOnly + Secure + SameSite | 🗓️ 7 jours | Renouvellement du token d’accès sans reconnecter l’utilisateur |
+- **Access Token** : valide 15 minutes, utilisé pour authentifier les requêtes au backend.
+- **Refresh Token** : valide 7 jours, permet de générer un nouveau Access Token sans forcer l’utilisateur à se reconnecter.
 
-✅ Aucune donnée sensible en localStorage → mitigation XSS  
-✅ Cookies sécurisés → mitigation CSRF  
-✅ Rotation automatique des refresh tokens → réduction du risque en cas de vol
+### 🎯 Mitigation XSS
+
+- Stockage uniquement dans **cookies HttpOnly**, donc **inaccessible via JavaScript**.
+- Évite que des scripts injectés via XSS puissent récupérer le token.
+
+### 🔁 Mitigation CSRF
+
+- Cookies définis avec `SameSite=Strict` : ils ne sont envoyés que pour les requêtes **depuis ton propre domaine**.
+- Cookies `Secure` : envoyés uniquement en HTTPS.
+- Résultat : protection contre les attaques **Cross-Site Request Forgery**.
+
+### 📦 Workflow côté front
+
+1. L’utilisateur se connecte → backend renvoie Access & Refresh Token dans des cookies sécurisés.
+2. Les requêtes vers le backend envoient automatiquement le cookie `HttpOnly`.
+3. Si l’Access Token expire → frontend appelle `/auth/refresh` pour obtenir un nouveau Access Token.
+4. Le cookie Refresh Token est renouvelé automatiquement si valide.
+
+### 🔍 Résumé
+
+| Token          | Stockage      | Durée   | Usage principal                   |
+|----------------|---------------|---------|----------------------------------|
+| **Access**     | Cookie HttpOnly | 15 min | Authentification requêtes API    |
+| **Refresh**    | Cookie HttpOnly | 7 jours | Génération d’un nouvel access token |
 
 ---
 
-### 🔁 Renouvellement automatique du token (`Silent Refresh`)
+## Installation et setup
 
-1. L’Access Token expire → réponse **401**
-2. Le frontend appelle `/auth/refresh` via un intercepteur Axios
-3. Le backend vérifie et renouvelle les tokens
-4. L’utilisateur reste connecté de manière transparente ✅
-5. En cas d’échec → redirection vers `/login`
+```bash
+# Installer les dépendances
+npm install
 
----
-
-### ✅ Avantages fonctionnels
-
-- 🔒 Sécurité moderne et alignée sur les standards du marché
-- ⚡ Expérience utilisateur fluide : pas besoin de se reconnecter fréquemment
-- 🚫 Forte protection contre les attaques XSS / CSRF
-
----
+# Lancer le backend en mode dev
+npm run start:dev
