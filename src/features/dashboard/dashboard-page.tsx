@@ -13,13 +13,11 @@ export const DashboardPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await api.get("/dashboard", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            const res = await api.get("/dashboard"); // cookies envoyés automatiquement via la config axios withCredentials: true
             setData(res.data);
         };
         fetchData();
-    }, [token]);
+    }, []);
 
     if (!data) {
         return (

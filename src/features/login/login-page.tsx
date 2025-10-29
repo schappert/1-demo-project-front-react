@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAuth } from "../../context/auth-context";
-import { login as loginApi } from "../../api/client";
 import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
@@ -12,9 +11,8 @@ export const LoginPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const data = await loginApi(username, password);
-            login(data.access_token);
-            navigate("/dashboard"); // ✅ redirection après login
+            await login(username, password);
+            navigate("/dashboard");
         } catch (err) {
             alert("Erreur login ❌");
         }
@@ -29,39 +27,32 @@ export const LoginPage = () => {
                 <h1 className="text-2xl font-bold text-center text-gray-800">
                     Connexion 🔐
                 </h1>
-
-                <div className="bg-blue-50 border border-blue-200 text-blue-700 p-3 rounded-lg text-sm">
-                    <p className="font-medium">Exemple d'identifiants :</p>
-                    <p>
-                        <span className="font-semibold">Utilisateur :</span> testuser
-                    </p>
-                    <p>
-                        <span className="font-semibold">Mot de passe :</span> secret
-                    </p>
+                <div className="bg-blue-50 border-l-4 border-blue-400 text-blue-700 p-4 rounded-lg shadow-md">
+                    <p className="font-semibold mb-2">Identifiants à saisir</p>
+                    <ul className="text-sm space-y-1">
+                        <li>
+                            <span className="font-medium">Utilisateur :</span> testuser
+                        </li>
+                        <li>
+                            <span className="font-medium">Mot de passe :</span> secret
+                        </li>
+                    </ul>
                 </div>
+                <input
+                    className="w-full border rounded-lg px-3 py-2"
+                    placeholder="Nom d’utilisateur"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                    className="w-full border rounded-lg px-3 py-2"
+                    placeholder="Mot de passe"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-                <div>
-                    <input
-                        className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Nom d’utilisateur"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-
-                <div>
-                    <input
-                        className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Mot de passe"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-
-                <button
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg py-2 shadow transition"
-                >
+                <button className="w-full bg-blue-600 text-white font-semibold rounded-lg py-2">
                     Se connecter
                 </button>
             </form>
