@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // ✅ Check session au démarrage
     useEffect(() => {
-        const loadSession = async () => {
+        const checkAuth = async () => {
             try {
                 await api.get("/auth/me");
                 setIsAuthenticated(true);
@@ -24,8 +24,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setIsAuthenticated(false);
             }
         };
-        loadSession();
+
+        checkAuth();
     }, []);
+
 
     const login = async (username: string, password: string) => {
         await api.post("/auth/login", { username, password });

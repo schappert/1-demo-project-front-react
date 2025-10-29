@@ -12,19 +12,26 @@ export const api = axios.create({
 
 // 🔁 Intercepteur Refresh Token auto
 api.interceptors.response.use(
-    (res) => res,
+    (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
+
             try {
-                await api.post("/auth/refresh");
+                await api.post("/auth/refresh", {}, { withCredentials: true });
+
                 return api(originalRequest);
-            } catch {
+            } catch (refreshError) {
+                console.error("Refresh token expiré ❌");
+                // 🔥 Empêche la boucle et force logout
+                window.localStorage.removeItem("isAuthenticated");
                 window.location.href = "/login";
+                return Promise.reject(refreshError);
             }
         }
+
         return Promise.reject(error);
     }
 );
