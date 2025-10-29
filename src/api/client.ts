@@ -1,11 +1,13 @@
-// src/api/client.ts
 import axios from "axios";
 
-const baseURL = "http://localhost:3000"; // ou ton domaine prod
+const baseURL =
+    window.location.hostname === "localhost"
+        ? "http://localhost:3000"
+        : "https://sebastien-chappert.fr";
 
 export const api = axios.create({
     baseURL,
-    withCredentials: true, // 🔥 important pour envoyer les cookies
+    withCredentials: true, // envoie les cookies (pour jwt)
 });
 
 // 🔁 Intercepteur pour gérer le refresh automatique
