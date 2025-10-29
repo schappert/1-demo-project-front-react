@@ -9,7 +9,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <BrowserRouter basename="/">{children}</BrowserRouter>
+                <BrowserRouter>{children}</BrowserRouter>
             </QueryClientProvider>
         </Provider>
     );
